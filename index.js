@@ -6,6 +6,7 @@ const restart = document.querySelector(".restart");
 
 let player = "X";
 let boardValues = Array(9).fill("");
+let timer;
 const winArray = [
   [0, 1, 2],
   [3, 4, 5],
@@ -18,6 +19,17 @@ const winArray = [
 ];
 
 playerName.innerText = `${player}'s turn.`;
+
+const showMessage = () => {
+  modal.style.display = "block";
+  result.innerText = `Player ${player === "X" ? "O" : "X"} wins!`;
+};
+
+const startTimer = () => {
+  timer = setTimeout(showMessage, 15000);
+};
+
+startTimer();
 
 const findWinner = () => {
   if (!boardValues.includes("")) {
@@ -51,6 +63,7 @@ const getWinner = () => {
 };
 
 const handleClick = (e) => {
+  clearTimeout(timer);
   const index = e.target.dataset.index;
   if (!boardValues[index]) {
     boardValues[index] = player;
@@ -60,6 +73,7 @@ const handleClick = (e) => {
   }
 
   getWinner();
+  startTimer();
 };
 
 const handleRestart = () => {
@@ -69,6 +83,7 @@ const handleRestart = () => {
   modal.style.display = "none";
   result.innerText = "";
   cells.forEach((cell) => (cell.innerText = ""));
+  startTimer();
 };
 
 cells.forEach((cell) => {
