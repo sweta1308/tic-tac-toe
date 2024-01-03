@@ -62,8 +62,8 @@ const handleRestart = () => {
   player = "X";
   boardValues = Array(9).fill("");
   modal.style.display = "none";
-  cells.forEach((cell) => (cell.innerText = ""));
   result.innerText = "";
+  cells.forEach((cell) => (cell.innerText = ""));
 };
 
 cells.forEach((cell) => {
