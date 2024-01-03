@@ -1,3 +1,4 @@
+const playerName = document.querySelector(".player");
 const cells = document.querySelectorAll(".cell");
 const modal = document.querySelector(".modal");
 const result = document.querySelector(".result");
@@ -15,6 +16,8 @@ const winArray = [
   [0, 4, 8],
   [2, 4, 6],
 ];
+
+playerName.innerText = `${player}'s turn.`;
 
 const findWinner = () => {
   if (!boardValues.includes("")) {
@@ -37,14 +40,13 @@ const findWinner = () => {
 const getWinner = () => {
   const winner = findWinner();
   if (winner) {
+    playerName.innerText = `X's turn.`;
     modal.style.display = "block";
     if (winner === "Tie") {
       result.innerText = "It is a tie!";
     } else {
       result.innerText = `Player ${winner} wins!`;
     }
-  } else {
-    player = player === "X" ? "O" : "X";
   }
 };
 
@@ -53,6 +55,8 @@ const handleClick = (e) => {
   if (!boardValues[index]) {
     boardValues[index] = player;
     cells[index].innerText = player;
+    player = player === "X" ? "O" : "X";
+    playerName.innerText = `${player}'s turn.`;
   }
 
   getWinner();
@@ -60,6 +64,7 @@ const handleClick = (e) => {
 
 const handleRestart = () => {
   player = "X";
+  playerName.innerText = `X's turn.`;
   boardValues = Array(9).fill("");
   modal.style.display = "none";
   result.innerText = "";
