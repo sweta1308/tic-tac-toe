@@ -1,77 +1,92 @@
 const playerName = document.querySelector(".player");
+const board = document.querySelector(".board");
 const cells = document.querySelectorAll(".cell");
 const modal = document.querySelector(".modal");
 const result = document.querySelector(".result");
 const restart = document.querySelector(".restart");
 
 let player = "X";
-let boardValues = Array(9).fill("");
-const winArray = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6],
+let boardValues = [
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""],
 ];
 
 playerName.innerText = `${player}'s turn.`;
 
-const findWinner = () => {
-  if (!boardValues.includes("")) {
-    return "Tie";
+const isEachCellFilled = () => {
+  let isFilled = false;
+  const filledSpaces = boardValues.flat().filter((value) => value !== "");
+  if (filledSpaces.length >= 5) {
+    isFilled = true;
   }
+  return isFilled;
+};
 
-  for (let win of winArray) {
-    if (
-      boardValues[win[0]] &&
-      boardValues[win[0]] === boardValues[win[1]] &&
-      boardValues[win[0]] === boardValues[win[2]]
-    ) {
-      return boardValues[win[0]];
+const isTie = () => (boardValues.flat().includes("") ? false : true);
+
+const findWinner = () => {
+  let isTrue = false;
+  for (let i = 0; i < 3; i++) {
+    if (boardValues[i].every((item) => item === player)) {
+      isTrue = true;
     }
   }
+  for (let i = 0; i < 3; i++) {
+    if (boardValues.every((row) => row[i] === player)) {
+      isTrue = true;
+    }
+  }
+  if (
+    boardValues.every((row, i) => row[i] === player) ||
+    boardValues.every((row, i) => row[2 - i] === player)
+  ) {
+    isTrue = true;
+  }
 
-  return null;
+  return isTrue;
 };
 
 const getWinner = () => {
-  const winner = findWinner();
-  if (winner) {
+  if (findWinner()) {
     playerName.innerText = `X's turn.`;
     modal.style.display = "block";
-    if (winner === "Tie") {
-      result.innerText = "It is a tie!";
-    } else {
-      result.innerText = `Player ${winner} wins!`;
-    }
+    result.innerText = `Player ${player} wins!`;
+  } else if (isTie()) {
+    playerName.innerText = `X's turn.`;
+    modal.style.display = "block";
+    result.innerText = "It is a tie!";
   }
 };
 
-const handleClick = (e) => {
-  const index = e.target.dataset.index;
-  if (!boardValues[index]) {
-    boardValues[index] = player;
-    cells[index].innerText = player;
+const handleBoardClick = (e) => {
+  const row = e.target.dataset.row;
+  const column = e.target.dataset.column;
+  if (!boardValues[row][column]) {
+    boardValues[row][column] = player;
+    e.target.textContent = player;
+    if (isEachCellFilled()) {
+      getWinner();
+    }
     player = player === "X" ? "O" : "X";
     playerName.innerText = `${player}'s turn.`;
+  } else {
+    alert("This cell is already occupied!");
   }
-
-  getWinner();
 };
 
 const handleRestart = () => {
   player = "X";
-  playerName.innerText = `X's turn.`;
-  boardValues = Array(9).fill("");
+  playerName.innerText = "X's turn";
+  boardValues = [
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
+  ];
   modal.style.display = "none";
   result.innerText = "";
   cells.forEach((cell) => (cell.innerText = ""));
 };
 
-cells.forEach((cell) => {
-  cell.addEventListener("click", (e) => handleClick(e));
-});
+board.addEventListener("click", (e) => handleBoardClick(e));
 restart.addEventListener("click", () => handleRestart());
