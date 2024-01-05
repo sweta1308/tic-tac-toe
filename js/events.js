@@ -2,6 +2,7 @@ window.addEventListener("load", () => {
   playerName.innerText = `${player}'s turn.`;
   setKeys();
   disableKeys();
+  changeBackgroundColor();
 });
 restart.addEventListener("click", () => handleRestart());
 pieces.forEach((piece) => {
