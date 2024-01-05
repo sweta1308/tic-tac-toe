@@ -11,9 +11,18 @@
       <h1>Welcome to Tic Tac Toe</h1>
       <div class="content">
         <div class="pieces">
-          <p class="piece" draggable="true"><span class="lives"></span>X1</p>
-          <p class="piece" draggable="true"><span class="lives"></span>X2</p>
-          <p class="piece" draggable="true"><span class="lives"></span>X3</p>
+          <div class="parent">
+            <span class="lives"></span>
+            <button class="piece" draggable="true">X1</button>
+          </div>
+          <div class="parent">
+            <span class="lives"></span>
+            <button class="piece" draggable="true">X2</button>
+          </div>
+          <div class="parent">
+            <span class="lives"></span>
+            <button class="piece" draggable="true">X3</button>
+          </div>
         </div>
         <div class="board">
           <div>
@@ -33,9 +42,18 @@
           </div>
         </div>
         <div class="pieces">
-          <p class="piece" draggable="true"><span class="lives"></span>O1</p>
-          <p class="piece" draggable="true"><span class="lives"></span>O2</p>
-          <p class="piece" draggable="true"><span class="lives"></span>O3</p>
+          <div class="parent">
+            <span class="lives"></span>
+            <button class="piece" draggable="true">O1</button>
+          </div>
+          <div class="parent">
+            <span class="lives"></span>
+            <button class="piece" draggable="true">O2</button>
+          </div>
+          <div class="parent">
+            <span class="lives"></span>
+            <button class="piece" draggable="true">O3</button>
+          </div>
         </div>
       </div>
 
@@ -49,9 +67,8 @@
       </div>
     </div>
 
-    <script src="js/variables.js"></script>
+    <script src="js/index.js"></script>
     <script src="js/utility.js"></script>
-    <script src="js/handleFunctions.js"></script>
     <script src="js/events.js"></script>
   </body>
 </html>
