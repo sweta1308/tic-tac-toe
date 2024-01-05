@@ -30,7 +30,7 @@ h1 {
 }
 
 .pieces p:hover {
-  background-color: rgb(241, 251, 222);
+  background-color: rgb(254, 250, 245);
 }
 
 .pieces p span {
@@ -59,7 +59,10 @@ h1 {
   align-items: center;
   font-size: 36px;
   font-weight: bold;
-  cursor: pointer;
+}
+
+.drag-over {
+  border: 1px solid red;
 }
 
 .player {
