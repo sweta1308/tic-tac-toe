@@ -23,57 +23,6 @@ let keys = [
   ["O3", 1],
 ];
 
-const setKeys = () => {
-  keys.forEach(([key, value], index) => {
-    lives[index].innerText = value.toString();
-  });
-};
-
-const disableKeys = () => {
-  if (player.includes("X")) {
-    pieces.forEach((piece) => {
-      if (piece.innerText.includes("O")) {
-        piece.disabled = true;
-      } else {
-        piece.disabled = false;
-      }
-    });
-  } else {
-    pieces.forEach((piece) => {
-      if (piece.innerText.includes("X")) {
-        piece.disabled = true;
-      } else {
-        piece.disabled = false;
-      }
-    });
-  }
-};
-
-playerName.innerText = `${player}'s turn.`;
-
-const isKeyAvailable = () => {
-  let isAvailable = true;
-  keys.forEach(([key, value]) => {
-    if (key === player) {
-      if (value === 0) {
-        isAvailable = false;
-      }
-    }
-  });
-  return isAvailable;
-};
-
-const isEachCellFilled = () => {
-  let isFilled = false;
-  const filledSpaces = boardValues.flat().filter((value) => value !== "");
-  if (filledSpaces.length >= 5) {
-    isFilled = true;
-  }
-  return isFilled;
-};
-
-const isTie = () => (boardValues.flat().includes("") ? false : true);
-
 const findWinner = () => {
   let isTrue = false;
   for (let i = 0; i < 3; i++) {
@@ -108,7 +57,31 @@ const getWinner = () => {
   }
 };
 
-const handleBoardClick = (e) => {
+const dragStart = (e) => {
+  if (!e.target.disabled) {
+    player = e.target.textContent;
+    playerName.innerText = `${player}'s turn.`;
+    changeBackgroundColor();
+  } else {
+    alert(`Choose keys which are enabled.`);
+  }
+};
+
+const dragEnter = (e) => {
+  e.preventDefault();
+  e.target.classList.add("drag-over");
+};
+
+const dragOver = (e) => {
+  e.preventDefault();
+  e.target.classList.add("drag-over");
+};
+
+const dragLeave = (e) => {
+  e.target.classList.remove("drag-over");
+};
+
+const drop = (e) => {
   const row = e.target.dataset.row;
   const column = e.target.dataset.column;
   if (isKeyAvailable()) {
@@ -128,6 +101,9 @@ const handleBoardClick = (e) => {
       player = player.includes("X") ? "O1" : "X1";
       playerName.innerText = `${player}'s turn.`;
       disableKeys();
+      e.target.classList.remove("drag-over");
+      changeBackgroundColor();
+      updatePiece();
     } else {
       alert("Invalid Move!");
     }
@@ -157,23 +133,5 @@ const handleRestart = () => {
   setKeys();
   cells.forEach((cell) => (cell.innerText = ""));
   disableKeys();
+  changeBackgroundColor();
 };
-
-const handlePieceClick = (e) => {
-  if (!e.target.disabled) {
-    player = e.target.textContent.slice(1);
-    playerName.innerText = `${player}'s turn.`;
-  } else {
-    alert(`Choose keys from ${player.includes("X") ? "X" : "O"}'s category.`);
-  }
-};
-
-window.addEventListener("load", () => {
-  setKeys();
-  disableKeys();
-});
-board.addEventListener("click", (e) => handleBoardClick(e));
-restart.addEventListener("click", () => handleRestart());
-pieces.forEach((piece) => {
-  piece.addEventListener("click", (e) => handlePieceClick(e));
-});

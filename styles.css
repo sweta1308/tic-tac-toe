@@ -20,20 +20,25 @@ h1 {
   gap: 20px;
 }
 
-.pieces p {
+.pieces .parent {
+  position: relative;
+}
+
+.pieces button {
   border: 1px solid black;
   padding: 20px;
   border-radius: 5px;
   cursor: pointer;
   font-weight: 600;
   position: relative;
+  background-color: white;
 }
 
-.pieces p:hover {
-  background-color: rgb(241, 251, 222);
+.pieces button:hover {
+  background-color: rgb(254, 250, 245);
 }
 
-.pieces p span {
+.pieces span {
   position: absolute;
   top: -10px;
   left: -10px;
@@ -59,7 +64,10 @@ h1 {
   align-items: center;
   font-size: 36px;
   font-weight: bold;
-  cursor: pointer;
+}
+
+.drag-over {
+  border: 1px solid red;
 }
 
 .player {
